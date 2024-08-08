@@ -7,7 +7,7 @@ namespace Vetor
     {
         static string[] nomes = new string[10];
         static int contador = 0;
-        static int i = 0; //pra ficar acessivel a todos os metodos? - PosicaoVaga()
+
 
         static void Main(string[] args)
         {
@@ -19,7 +19,7 @@ namespace Vetor
 
             //verificar se cabe mais um nome antes de adicionar
 
-                        Console.WriteLine("Digite a opção desejada:");
+            Console.WriteLine("Digite a opção desejada:");
             Console.WriteLine("1 - Adicionar nome sequencialmente no array \b 2 - Adicionar nome em uma posição especifica do array. \b 3 - Ordenar nomes alfabeticamente no array \b 4 - Imprimir nomes existentes");
 
             int opcao = int.Parse(Console.ReadLine());
@@ -74,18 +74,29 @@ namespace Vetor
             //se tiver: verificar se a posição escolhioda esta vazia - se tiver: remanejar o nomes para espaço livre, depois adicionar o nome no index solicitado - perguntar em program o index? - 
             //se não tiver: avisar que o array esta cheio 
 
+
             if (contador < nome.Length) //se tiver espaço
             {           
                 //verificar se a posição escolhida esta vazia
                 if (nomes[index] != "") //se não estiver vazia
                 {
+
+                    int posicaoVaga;
                     //encontrar uma posição vazia
+                    for (int i = 0; i < nomes.Length; i++)
+                    {
+                        if (nomes[i] == "")
+                        {
+                            posicaoVaga = i;
+                            //remanejar nome na posição desejada para posição vazia
 
-
-
-                    //remanejar nome na posição desejada para posição vazia
-
-
+                            string copiaNome = nomes[index];
+                            nomes[posicaoVaga] = copiaNome;
+                            break; //se nao parar apos a primeira vez que acha o lugar vazio, pode achar mais e modificar o valor da variavel
+                        }
+                                    
+                    }
+                    
                     //adicionar novo nome na posição desejada    
                     nomes[index] = nome;
                     contador++;
@@ -108,15 +119,7 @@ namespace Vetor
 
         }
 
-        static int PosicaoVazia()
-        {
-        for (i = 0; i < nomes.Length; i++)
-        {
-            if (nomes[i] == "")
-            {
-                return i;
-            }
-        }
+       
 
         static void ReordenarNomes()
         {
@@ -124,7 +127,7 @@ namespace Vetor
         }
         static void ImprimirNomes()
         {
-            for (int i = 0; i < contador; i++) // usar contador pq o comprimento do Vetor nao mudara, estando cheio ou nao
+            for (int i = 0; i < contador; i++) // usar contador pq o comprimento do Vetor nao mudara, estando cheio ou nao, imprimindo vazio -> é problema?
             {
                 Console.WriteLine(nomes[i]);
             }
