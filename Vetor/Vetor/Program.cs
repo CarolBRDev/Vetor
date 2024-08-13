@@ -16,45 +16,60 @@ namespace Vetor
             //esse programa deve ter um metodo de adicionar nomes em indices especificos
             //Esse programa deve ter um metodo de ordenar os nomes em ordem alfabetica
             //esse programa deve ter um metodo para imprimir todos os nomes.
+            //criar metodo para remover o registro e rearrumar o espaço (puxa os de tras do que foi removido para frente, a ultima que tem que ficar vaga)
 
-            //verificar se cabe mais um nome antes de adicionar
+            int opcao;
 
-            Console.WriteLine("Digite a opção desejada:");
-            Console.WriteLine("1 - Adicionar nome sequencialmente no array \b 2 - Adicionar nome em uma posição especifica do array. \b 3 - Ordenar nomes alfabeticamente no array \b 4 - Imprimir nomes existentes");
-
-            int opcao = int.Parse(Console.ReadLine());
-
-            switch (opcao)
+            do
             {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                default:
-                    break;
+                Console.WriteLine("Digite a opção desejada:");
+            Console.WriteLine("1 - Adicionar nome sequencialmente no array \n 2 - Adicionar nome em uma posição especifica do array. \n 3 - Ordenar nomes alfabeticamente no array \n 4 - Imprimir nomes existentes \n 5 - Remover registro \n 6 - Finalizar programa");
 
-
-
-
-                
-
-
-            }
+            opcao = int.Parse(Console.ReadLine());
 
             
+                switch (opcao)
+                {
+                    case 1:
+                        Console.WriteLine("Digite o nome: ");
+                        string nome = Console.ReadLine();
+                        IncluirNome(nome);
+                        break;
+                    case 2:
+                        Console.WriteLine("Digite o nome: ");
+                        nome = Console.ReadLine();
+                        Console.WriteLine("Digite o valor do index onde quer adicionar o nome: ");
+                        int index = int.Parse(Console.ReadLine());
+                        IncluirNomeIndex(nome, index);
+                        break;
+                    case 3:
+                        ReordenarNomes();
+                        break;
+                    case 4:
+                        ImprimirNomes();
+                        break;
+                    case 5:
+                        Console.WriteLine("Digite o valor do index do nome que quer remover: ");
+                        index = int.Parse(Console.ReadLine());
+                        RemoverRegistro(index);
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Tente novamente.");
+                        break;
+
+                }
+
+            }
+            while (opcao != 6);
+
+
         }
 
-        static void IncluirNome(string nome, int contador)
+        static void IncluirNome(string nome)
         {
-            //verificar se o array tem espaço
-            //se tiver: adicionar o nome no index disponivel usando o contador
-            //se não tiver: avisar que o array esta cheio 
+             
 
-            if (contador < nome.Length)
+            if (contador < nomes.Length)
             {
 
                 nomes[contador] = nome;
@@ -68,68 +83,98 @@ namespace Vetor
         }   
 
 
-        static void IncluirNomeIndex(string nome, int index)
+        static void IncluirNomeIndex(string nome, int index)//reavaliar 
         {
-            //verificar se o array tem espaço
-            //se tiver: verificar se a posição escolhioda esta vazia - se tiver: remanejar o nomes para espaço livre, depois adicionar o nome no index solicitado - perguntar em program o index? - 
-            //se não tiver: avisar que o array esta cheio 
-
-
-            if (contador < nome.Length) //se tiver espaço
-            {           
-                //verificar se a posição escolhida esta vazia
-                if (nomes[index] != "") //se não estiver vazia
-                {
-
-                    int posicaoVaga;
-                    //encontrar uma posição vazia
-                    for (int i = 0; i < nomes.Length; i++)
-                    {
-                        if (nomes[i] == "")
-                        {
-                            posicaoVaga = i;
-                            //remanejar nome na posição desejada para posição vazia
-
-                            string copiaNome = nomes[index];
-                            nomes[posicaoVaga] = copiaNome;
-                            break; //se nao parar apos a primeira vez que acha o lugar vazio, pode achar mais e modificar o valor da variavel
-                        }
-                                    
-                    }
-                    
-                    //adicionar novo nome na posição desejada    
-                    nomes[index] = nome;
-                    contador++;
-
-                }
-                else//se estiver vazia
-                {
-                    //adicionar novo nome na posição desejada    
-                    nomes[index] = nome;
-                    contador++;
-                }
-
-                    
-               
-            }
-            else //se não tiver espaço
+            
+            if (index >= 0 && index < nomes.Length)
             {
-                Console.WriteLine("O array está cheio. Sem espaço para acrescentar nomes.");
+                if (contador < nome.Length)
+                {
+                    
+                    if (nomes[index] != "")
+                    {
+
+                        int posicaoVaga;
+                        
+                        for (int i = 0; i < nomes.Length; i++)
+                        {
+                            if (nomes[i] == "")
+                            {
+                                posicaoVaga = i;
+                                
+                                string copiaNome = nomes[index];
+                                nomes[posicaoVaga] = copiaNome;
+                                contador++;
+                                break; 
+                            }
+
+                        }
+
+                           
+                        nomes[index] = nome;
+                        contador++;
+
+                    }
+                    else
+                    {
+                           
+                        nomes[index] = nome;
+                        contador++;
+                    }
+
+                }
+                else 
+                {
+                    Console.WriteLine("O array está cheio. Sem espaço para acrescentar nomes.");
+                }
             }
+            else
+            {
+                Console.WriteLine("O numero digitado está fora do intervalo válido.");
+            }
+            
 
         }
-
        
-
-        static void ReordenarNomes()
+        static void ReordenarNomes()//em andamento
         {
+            for (int i = 0; i < nomes.Length; i++)
+            {
+               int comparacao = string.Compare(nomes[i], nomes[i+1]);
 
+                if (comparacao >1) { //segundo nome é antes do primeiro na ordem alfabética
+
+                    string provisoria = nomes[i];
+                    nomes[i] = nomes[i + 1];
+                    nomes[i + 1] = provisoria;
+                }
+            }
+            
         }
-        static void ImprimirNomes()
+        static void ImprimirNomes()//ok
         {
-            for (int i = 0; i < contador; i++) // usar contador pq o comprimento do Vetor nao mudara, estando cheio ou nao, imprimindo vazio -> é problema?
+            for (int i = 0; i < nomes.Length; i++) 
             {
                 Console.WriteLine(nomes[i]);
+            }
+        }
+
+        static void RemoverRegistro(int index)//reavaliar
+        {
+            
+            if (index >=0 && index <nomes.Length)
+            {
+                for (int i = index; i < nomes.Length -1; i++)
+                {
+                    nomes[i] = nomes[i + 1];
+                    //precisa definir uma maneira de deixar o ultimo indice que estava ocupado, vazio. MAs nao vai ser sempre o ultimo do array...
+                    contador--;
+                   
+                }
+            }
+            else
+            {
+                Console.WriteLine("O numero digitado está fora do intervalo válido.");
             }
         }
     }
